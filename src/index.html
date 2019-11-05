@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,46 +11,35 @@
 </head>
 
 <!-- For initial view of bookmarks app -->
+
 <body>
   <header>
     <h1>My Bookmarks --- Initial View Edit</h1>
     <form>
-      <button id="add-bm button"><i class="fa fa-plus"></i>  <i class="fa fa-bookmark"></i></button>    
-        <select name="rating" id="rating-filter">
-          <option value="" name="">Filter by minimum rating</option>
-          <option value="5" name="5">5 Star Rating</option>
-          <option value="4" name="4">4+ Rating</option>
-          <option value="3" name="3">3+ Rating</option>
-          <option value="2" name="2">2+ Rating</option>
-          <option value="1" name="1">Show All</option>
-        </select>
-      </form>
+      <button id="add-bm button"><i class="fa fa-plus"></i> <i class="fa fa-bookmark"></i></button>
+      <select name="rating" id="rating-filter">
+        <option value="" name="">Filter by minimum rating</option>
+        <option value="5" name="5">5 Star Rating</option>
+        <option value="4" name="4">4+ Rating</option>
+        <option value="3" name="3">3+ Rating</option>
+        <option value="2" name="2">2+ Rating</option>
+        <option value="1" name="1">Show All</option>
+      </select>
+    </form>
   </header>
   <main>
-     <ul>
-       <li>Lorem ipsum
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
-        <span class="fa fa-star"></span>
+    <ul class="bookmarks-list js-bookmarks-list">
+      <li class="js-bookmark">Lorem ipsum
+        <div class="rating-controls">
+          <span class="fa fa-star" data-item-id="1"></span>
+          <span class="fa fa-star" data-item-id="2"></span>
+          <span class="fa fa-star" data-item-id="3"></span>
+          <span class="fa fa-star" data-item-id="4"></span>
+          <span class="fa fa-star" data-item-id="5"></span>
+        </div>
       </li>
-      <li>Lorem ipsum
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>
-      </li>
-      <li>Lorem ipsum
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>
-          <span class="fa fa-star"></span>
-      </li>
-      </ul>
-  </main>  
+    </ul>
+  </main>
   <footer></footer>
   <code>
     const store = {
@@ -78,4 +68,5 @@
     };
   </code>
 </body>
+
 </html>
