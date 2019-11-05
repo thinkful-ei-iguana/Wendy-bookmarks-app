@@ -1,4 +1,5 @@
 Wendy's Bookmark App
 
-Integrates with API
-Single-page app
+*** For dev purposes only
+
+HTML wireframing for all states of store object for each state of application
