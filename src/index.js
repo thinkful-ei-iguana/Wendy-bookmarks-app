@@ -7,11 +7,8 @@ import api from './api';
 
 function main() {
   bookmarks.render(store.pages);
-  bookmarks.handleRating();
-  bookmarks.handleAddNewBookmarkForm(); 
- 
+  bookmarks.bindEventListeners(); 
 
-  
 }
 
 $(main);
