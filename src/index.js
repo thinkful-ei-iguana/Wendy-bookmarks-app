@@ -1,9 +1,16 @@
 import $ from 'jquery';
+import './index.css';
+
+import bookmarks from './bookmarks';
+import store from './store';
 import api from './api';
 
 function main() {
-  api.getItems()
-    .then(res => console.log(res));  
+  bookmarks.render(store.pages);
+  bookmarks.handleRating();
+  bookmarks.handleAddNewBookmarkForm(); 
+ 
+
   
 }
 
