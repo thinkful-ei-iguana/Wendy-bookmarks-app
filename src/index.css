@@ -7,13 +7,13 @@ body {
     font-size: 30px;
 }
 h1 {
-    text-align: center;
+    text-align: left;
     text-decoration: crimson underline;
 }
 
 li {
     list-style-type: none;
-    text-align: center;
+    text-align: left;
 }
 
 button {
@@ -21,7 +21,7 @@ button {
   border: none;
   color: white;
   padding: 15px 32px;
-  text-align: center;
+  text-align: left;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
@@ -35,15 +35,24 @@ button {
 .new-bookmark {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: left;
+}
+
+.filter-select {
+  padding: 15px 32px;
+  margin-left: 40px;
+  background: crimson;
+  font-size: 20px;
+  font-family: 'Shadows Into Light';
+  color: white;
+  
 }
 
 fieldset {
   display: flex;
   flex-direction: column;
-  text-align: center;
-  /* margin-left: 500px;
-  margin-right: 500px; */
+  text-align: left;
+  border: none;
 }
 
 #form-button {
