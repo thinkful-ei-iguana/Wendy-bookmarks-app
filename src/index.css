@@ -1,4 +1,13 @@
-.main {
-    display: block;
-    color: blueviolet;
+* {
+  box-sizing: border-box;
+
 }
+
+body {
+  width: 200px;
+}
+
+h2 {
+  background-color: lightgray;
+}
+
