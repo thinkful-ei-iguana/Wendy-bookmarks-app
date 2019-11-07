@@ -26,6 +26,10 @@ const findAndDelete = function (id) {
   this.pages = this.pages.filter(currentPage => currentPage.id !== id);
 };
 
+const toggleExpandedView = function () {
+  this.pages = this.pages.filter(currentPage => !currentPage.expanded);
+};
+
 export default {
   pages,
   adding,
@@ -34,5 +38,6 @@ export default {
   findById,
   setError,
   addPage,
-  findAndDelete
+  findAndDelete,
+  toggleExpandedView
 };

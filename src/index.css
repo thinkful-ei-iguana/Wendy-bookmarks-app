@@ -29,6 +29,10 @@ button {
   border-radius: 5%;
 }
 
+.hidden {
+  display: none;
+}
+
 .in-add-form {
   display: inline;
   padding: 10px;

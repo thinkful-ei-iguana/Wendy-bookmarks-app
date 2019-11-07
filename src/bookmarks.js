@@ -22,7 +22,6 @@ const generateBookmarkElement = function(page) {
   `;
   
   return `
-  
     <li class="js-bookmark" data-page-id="${page.id}">
     <i class="fa fa-caret-square-o-down" data-expand-id="${page.id}"></i>
     ${pageTitle}
@@ -34,7 +33,6 @@ const generateBookmarkElement = function(page) {
         <span class="fa fa-star" data-rating-id="5"></span>
       </span>
     </li>
-  
     `;
 };
 
@@ -90,7 +88,7 @@ const render = function() {
   const bookmarksString = generateBookmarkString(pages);
 
   //insert that HTML into the DOM
-  $('.container').html(bookmarksString);
+  $('.js-bookmarks-list').html(bookmarksString);
 };
 
 const getItemIdFromElement = function (page) {
@@ -105,7 +103,7 @@ const generateExpandBookmarkHtml = function(page) {
     ${page.title}</h2>
       
         <span>
-          <button><i class="fa fa-pencil-square-o"></i></button>
+          <button type="button" id="list-view"><< Bookmarks List</button>
           <button type="button" id="delete-bookmark" data-id="${page.id}"><i class="fa fa-trash-o"></i></button>
         </span>
       
@@ -123,21 +121,26 @@ const generateExpandBookmarkHtml = function(page) {
 };
 
 const handleExpandTitle = function () {
-  $('.container').on('click', '.fa-caret-square-o-down', event => {
+  $('.js-bookmarks-list').on('click', '.js-bookmark', event => {
     const id = getItemIdFromElement(event.currentTarget);
     const page = store.findById(id);
     page.expanded = !page.expanded;
-    console.log(page.expanded);
+
     if (page.expanded === true) {
       let expandedView = generateExpandBookmarkHtml(page);
-      console.log(expandedView);
-      $('body').html(expandedView);
-    };
+      $('.js-bookmarks-list').html(expandedView);
+    }
     //got this to toggle on and off, now I need to api.updatePage(id , expanded: !page:expanded)
-    //.then(() => { store.findAndUpdate (id , expanded: !page:expanded })
-    render();
+    //.then(() => { store.findAndUpdate (id , expanded: !page:expanded })fa-caret-square-o-down
+    //render();
     //.catch(error)
-    console.log(page);
+  });
+};
+
+const handleToggleExpandTitle = function () {
+  $('js-bookmarks-list').click(() => {
+    store.toggleExpandedView();
+    render();
   });
 };
 
@@ -183,7 +186,7 @@ const handleAddNewBookmarkForm = function() {
   let formAdd = generateNewBookmark(); 
   $('.js-new-bookmark-form').on('click', '.js-add-bm', event => {
     event.preventDefault();
-    $('.container').html(formAdd);  
+    $('.js-bookmarks-list').html(formAdd);  
     $('.js-add-bm').hide();
     console.log('adding form');
   });
@@ -234,6 +237,12 @@ const handleDeleteBookmarkClicked = function() {
   });
 };
 
+const handleBackToListViewOnClick = function() {
+  $('.container').on('click', '#list-view', () => {
+    render();
+  });
+};
+
 // const handleRating = function() {
 //   $('.fa-star').on('click', event => {
 //     let ratingId = $(event.currentTarget).data('rating-id');
@@ -250,6 +259,8 @@ const bindEventListeners = function () {
   handleExpandTitle();
   handleCancelNewBookmarkForm();
   handleDeleteBookmarkClicked();
+  handleToggleExpandTitle();
+  handleBackToListViewOnClick();
 };
 
 export default {
