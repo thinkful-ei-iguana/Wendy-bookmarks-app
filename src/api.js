@@ -45,7 +45,7 @@ const listApiFetch = function (...args) {
     });
 };
 
-const readBookmarks = function () {
+const getBookmarks = function () {
   return listApiFetch(`${BASE_URL}/bookmarks`);
 };
 
@@ -61,11 +61,15 @@ const createBookmark = function (bookmark) {
 };
  
 const updateBookmark = function () {};
-const deleteBookmark = function () {};
+const deleteBookmark = function (id) {
+  return listApiFetch(`${BASE_URL}/bookmarks/${id}`, {
+    method: 'DELETE'
+  }); 
+};
 
 export default {
   createBookmark,
-  readBookmarks,
+  getBookmarks,
   updateBookmark,
   deleteBookmark
 };

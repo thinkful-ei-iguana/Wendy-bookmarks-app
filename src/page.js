@@ -1,8 +1,8 @@
 import cuid from 'cuid';
 
-const createPage = function ({title, url, desc, rating}) {
+const createPage = function ({id, title, url, desc, rating}) {
   return {
-    id: cuid(),
+    id,
     title,
     url,
     desc,

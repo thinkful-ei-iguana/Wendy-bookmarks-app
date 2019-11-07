@@ -1,23 +1,6 @@
 import page from './page';
 
-const pages = [
-  {
-    'id': '8sdfbvbs65sd',
-    'title': 'Google',
-    'url': 'http://google.com',
-    'desc': 'An indie search engine startup',
-    'rating': 4,
-    'expanded': false
-  },
-  {
-    'id': '9sdfbvbs65sd',
-    'title': 'Thinkful',
-    'url': 'http://thinkful.com',
-    'desc': 'A bootcamp',
-    'rating': 4,
-    'expanded': false
-  }
-];
+const pages = [];
 let adding = false;
 let error = null;
 let filter = 0;
@@ -39,6 +22,10 @@ const addPage = function(bookmark) {
   }
 };
 
+const findAndDelete = function (id) {
+  this.pages = this.pages.filter(currentPage => currentPage.id !== id);
+};
+
 export default {
   pages,
   adding,
@@ -46,5 +33,6 @@ export default {
   filter,
   findById,
   setError,
-  addPage
+  addPage,
+  findAndDelete
 };
