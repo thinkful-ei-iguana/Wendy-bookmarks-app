@@ -2,8 +2,7 @@ import $ from 'jquery';
 import store from './store';
 import api from './api';
 
-// call this function when submitting new bookmark
-
+// call this function when submitting new bookmark, returns form object as string
 function serializeJson(form) {
   const formData = new FormData(form);
   const jsonObj = {};
@@ -11,10 +10,30 @@ function serializeJson(form) {
   return JSON.stringify(jsonObj);
 }
 
+// generates the HTML for the star rating
+const generateRatingString = function () {
+  return `
+    <span class="fa fa-star checked"></span>
+    `;
+};
+  
+// creates an array of the html from generateRatingString. Used to display rating visually in initial view.
+const generateRatingRepeat = function(num) {
+  let ratingArr = [];
+  for (let i = 0; i < num; i++) {
+    let stringResult = generateRatingString();
+    ratingArr.push(stringResult);
+  }
+  return ratingArr;
+};
+
+
 // generates <li> element for added bookmark
+// runs star rating function to display correct rating when generating the bookmark
 const generateBookmarkElement = function(page) {
-  // if expanded propert is false, add class of title-expand__collapsed. Otherwise, set to __expanded
-  // got this to toggle on and off by clicking on each dropdown HOW DO I GET THE PAGE TO RE-RENDER?
+  let pageRating = generateRatingRepeat(page.rating).join('');
+ 
+  // if expanded property is false, add class of title-expand__collapsed. Otherwise, set to __expanded
   let pageTitle = `
     <span class="bookmark-page-title ${!page.expanded ? 'title-expand__collapsed' : 'title-expand__expanded'}">
       ${page.title}
@@ -26,16 +45,11 @@ const generateBookmarkElement = function(page) {
     <i class="fa fa-caret-square-o-down" data-expand-id="${page.id}"></i>
     ${pageTitle}
       <span class="rating-controls">
-        <span class="fa fa-star" data-rating-id="1"></span>
-        <span class="fa fa-star" data-rating-id="2"></span>
-        <span class="fa fa-star" data-rating-id="3"></span>
-        <span class="fa fa-star" data-rating-id="4"></span>
-        <span class="fa fa-star" data-rating-id="5"></span>
+      ${pageRating}
       </span>
     </li>
     `;
 };
-
 
 // generates a list of all bookmarks in array, uses map method to return the <li> elements from above
 const generateBookmarkString = function(bookmarkArray) {
@@ -75,14 +89,17 @@ const handleCloseError = function () {
 // filter pages list by ratings
 // render the shopping list in the DOM
 
+
 const render = function() {
   renderError();
 
   let pages = [...store.pages];
   // //filter by rating
-  // if (this is higher than the id of the rating) {
-  //   pages = pages.filter(page => page.id);
-  // }
+  let filteredRating = $('#rating-filter').filter(':selected').val();
+
+  if (store.filter === filteredRating) {
+    pages = pages.filter(page => page.rating);
+  }
 
   //render the bookmarks in the DOM
   const bookmarksString = generateBookmarkString(pages);
@@ -98,25 +115,23 @@ const getItemIdFromElement = function (page) {
 };
 
 const generateExpandBookmarkHtml = function(page) {
+  let pageRating = generateRatingRepeat(page.rating).join('');
   return `
     <h2 class="title" <i class="fa fa-caret-square-o-down" data-expand-id="${page.id}"></i>
-    ${page.title}</h2>
+    ${page.title}
+      <span class="rating-controls">
+        ${pageRating}
+      </span>
+      </h2>
+      <div class="site-link">
+        <button><a href="${page.url}">Visit Site</a></button>
+      </div>
+      <p class="description-expanded">${page.desc === null ? '' : page.desc}</p>  
+      <span>
+        <button type="button" id="list-view"><< Bookmarks List</button>
+        <button type="button" id="delete-bookmark" data-id="${page.id}"><i class="fa fa-trash-o"></i></button>
+      </span>
       
-        <span>
-          <button type="button" id="list-view"><< Bookmarks List</button>
-          <button type="button" id="delete-bookmark" data-id="${page.id}"><i class="fa fa-trash-o"></i></button>
-        </span>
-      
-          <div class="rating-controls">
-            <span class="fa fa-star" data-item-id="1"></span>
-            <span class="fa fa-star" data-item-id="2"></span>
-            <span class="fa fa-star" data-item-id="3"></span>
-            <span class="fa fa-star" data-item-id="4"></span>
-            <span class="fa fa-star" data-item-id="5"></span>
-          </div>
-      
-      <button><a href="${page.url}">Visit Site</a></button>
-    <p class="description-expanded">${page.desc === null ? '' : page.desc}</p>  
   `;
 };
 
@@ -149,18 +164,20 @@ const generateNewBookmark = function() {
   return `
   <form class="bookmark" id="js-add-bm-form">
     <fieldset>
-        <label class="title" for="bookmark-id-1">Name:
-            <input class="hidden-add" type="text" minlength="1" id="bookmark-id-1" name="title" placeholder="Thinkful">
+        <label class="title" for="bookmark-id-1">Title:
+            <input class="title" type="text" minlength="1" id="bookmark-id-1" name="title" placeholder="Thinkful" required>
         </label>
         <label class="url" for="url-id-2">Website:
-            <input type="url" minlength="5" size="30" id="url-id-2" name="url" placeholder="https://www.thinkful.com">
+            <input type="url" minlength="5" size="30" id="url-id-2" name="url" placeholder="https://www.thinkful.com" required>
         </label>
         <label class="stars" for="rating">Rate Me!
-          <input type="radio" name="rating" value="1">
-          <input type="radio" name="rating" value="2">
-          <input type="radio" name="rating" value="3">
-          <input type="radio" name="rating" value="4">
-          <input type="radio" name="rating" value="5">        
+          <span class="rating-controls">
+            <li><label for="rating-1"><i class="fa fa-star"></i></label><input type="radio" name="rating" id="rating-1" value="1" required></li>
+            <li><label for="rating-2"><i class="fa fa-star"></i></label><input type="radio" name="rating" id="rating-2" value="2" required></li>
+            <li><label for="rating-3"><i class="fa fa-star"></i></label><input type="radio" name="rating" id="rating-3" value="3" required></li>
+            <li><label for="rating-4"><i class="fa fa-star"></i></label><input type="radio" name="rating" id="rating-4" value="4" required></li> 
+            <li><label for="rating-5"><i class="fa fa-star"></i></label><input type="radio" name="rating" id="rating-5" value="5" required></li>
+          </span>
         </label>
         <label for="description">Description
             <input type="text" id="description" name="desc" placeholder="What do you like about me?">
@@ -187,15 +204,13 @@ const handleAddNewBookmarkForm = function() {
   $('.js-new-bookmark-form').on('click', '.js-add-bm', event => {
     event.preventDefault();
     $('.js-bookmarks-list').html(formAdd);  
-    $('.js-add-bm').hide();
-    console.log('adding form');
+    $('.new-bookmark').hide();
   });
 };
 
 const handleCancelNewBookmarkForm = function() {
   $('.container').on('click', '#js-cancel', () => {
-    console.log('cancel');
-    $('.js-add-bm').show();
+    $('.new-bookmark').show();
     render();
   });
 };
@@ -215,7 +230,7 @@ const handleNewBookmarkSubmit = function() {
         store.setError(err.message);
         renderError();
       });
-    $('.js-add-bm').show();
+    $('.new-bookmark').show();
   });
 };
 
@@ -243,8 +258,21 @@ const handleBackToListViewOnClick = function() {
   });
 };
 
-// const handleRating = function() {
-//   $('.fa-star').on('click', event => {
+const handleFilter = function() {
+  $('.filter-select').on('click', event => {
+    let result = $(event.currentTarget).val();
+    store.filter === result;
+  });
+};
+
+const handleRating = function() {
+  $('.container').on('click', '.fa-star', event => {
+    $('.fa-star').removeClass('active');
+    $('.fa-star').removeClass('active-adjacent');
+    $(event.currentTarget).addClass('active');
+    $(event.currentTarget).prevAll().addClass('active-adjacent');
+  });
+};
 //     let ratingId = $(event.currentTarget).data('rating-id');
 //     let bookmarkId = $(event.currentTarget).parent().parent().data('page-id');
 //     console.log(`${bookmarkId}: ${ratingId}`);
@@ -252,7 +280,8 @@ const handleBackToListViewOnClick = function() {
 // };
 
 const bindEventListeners = function () {
-  //handleRating();
+  handleFilter();
+  handleRating();
   handleCloseError();
   handleAddNewBookmarkForm();
   handleNewBookmarkSubmit();
@@ -265,6 +294,7 @@ const bindEventListeners = function () {
 
 export default {
   render,
+
   generateNewBookmark,
   bindEventListeners
 };
