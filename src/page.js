@@ -1,5 +1,3 @@
-import cuid from 'cuid';
-
 const createPage = function ({id, title, url, desc, rating}) {
   return {
     id,

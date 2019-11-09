@@ -79,36 +79,32 @@ const renderError = function() {
 
 // allows user to close the error using button generated in generateError()
 const handleCloseError = function () {
-  $('.error-container').on('click', '#cancel-error', event => {
+  $('.error-container').on('click', '#cancel-error', () => {
     store.setError(null);
     renderError();
   });
 };
 
 // render bookmarks (first renderError)
-// filter pages list by ratings
-// render the shopping list in the DOM
-
-
 const render = function() {
   renderError();
-
+  
   let pages = [...store.pages];
-  // //filter by rating
-  let filteredRating = $('#rating-filter').filter(':selected').val();
-
-  if (store.filter === filteredRating) {
-    pages = pages.filter(page => page.rating);
+  
+  // filter pages list by ratings
+  if (store.filter > 0) {
+    pages = pages.filter(page => {
+      return page.rating >= store.filter; 
+    });
   }
-
   //render the bookmarks in the DOM
   const bookmarksString = generateBookmarkString(pages);
-
+    
   //insert that HTML into the DOM
   $('.js-bookmarks-list').html(bookmarksString);
 };
 
-const getItemIdFromElement = function (page) {
+const getItemIdFromElement = function(page) {
   return $(page)
     .closest('.js-bookmark')
     .data('page-id');
@@ -193,11 +189,6 @@ const generateNewBookmark = function() {
   `;
 };
 
-// const generateNewBookmarkString = function(bookmarkArray) {
-//   const pages = bookmarkArray.map(page => generateNewBookmark(page));
-//   return pages.join('');
-// };
-
 //when new bookmark clicked, generates html for the add bookmark view
 const handleAddNewBookmarkForm = function() {
   let formAdd = generateNewBookmark(); 
@@ -219,11 +210,10 @@ const handleNewBookmarkSubmit = function() {
   $('.container').on('submit', '#js-add-bm-form', event => {
     event.preventDefault();
     let submittedBookmarkForm = serializeJson(event.currentTarget);
-    console.log(submittedBookmarkForm);
+    
     api.createBookmark(submittedBookmarkForm)
       .then((submittedBookmark) => {
         store.addPage(submittedBookmark);
-        console.log(submittedBookmark);
         render();
       })
       .catch((err) => {
@@ -237,15 +227,13 @@ const handleNewBookmarkSubmit = function() {
 const handleDeleteBookmarkClicked = function() {
   $('.container').on('click', '#delete-bookmark', event => {
     const id = $(event.currentTarget).data('id');
-    console.log('delete this bookmark');
+
     api.deleteBookmark(id)
       .then(() => {
         store.findAndDelete(id);
-        console.log(store.pages);
         render();
       })
       .catch((err) => {
-        console.log(err);
         store.setError(err.message);
         renderError();
       });
@@ -259,9 +247,10 @@ const handleBackToListViewOnClick = function() {
 };
 
 const handleFilter = function() {
-  $('.filter-select').on('click', event => {
+  $('.filter-select').on('change', event => {
     let result = $(event.currentTarget).val();
-    store.filter === result;
+    store.filter = parseInt(result, 10);
+    render();
   });
 };
 
@@ -273,11 +262,7 @@ const handleRating = function() {
     $(event.currentTarget).prevAll().addClass('active-adjacent');
   });
 };
-//     let ratingId = $(event.currentTarget).data('rating-id');
-//     let bookmarkId = $(event.currentTarget).parent().parent().data('page-id');
-//     console.log(`${bookmarkId}: ${ratingId}`);
-//   });
-// };
+
 
 const bindEventListeners = function () {
   handleFilter();
@@ -294,7 +279,5 @@ const bindEventListeners = function () {
 
 export default {
   render,
-
-  generateNewBookmark,
   bindEventListeners
 };
