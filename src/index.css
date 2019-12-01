@@ -1,64 +1,55 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
+/* || General styles */
 body {
-    font-family: 'Shadows Into Light', cursive;
-    font-size: 18px;
-}
-h1 {
-    text-align: left;
-    text-decoration: crimson underline;
-}
-
-ul .stars {
-  display: inline;
-  padding: 0;
-  margin: 0;
-}
-
-li {
-    list-style-type: none;
-    display: block;
-    text-align: left;
-    margin-left: 20px;
-}
-
-input[type="radio"] {
-  display: none;
+  font-family: "Prata", serif;
 }
 
 button {
   background-color: crimson;
   border: none;
-  color: white;
-  padding: 5px 15px;
-  text-align: left;
   text-decoration: none;
+  color: white;
+  padding: 5px 25px;
   display: inline-block;
   font-size: 16px;
   border-radius: 5%;
 }
 
-span.rating-controls {
-  display: flex;
-  flex-direction: row;
+/* || Header styles */
+header {
+  margin-top: 30px;
+  padding-top: 60px;
+  align-content: right;
+  font-size: 30px;
+  width: 400px;
+  position: relative;
 }
 
-.in-add-form {
-  display: inline;
-  padding: 10px;
-  font-size: 16px;
-  font-family: 'Shadows Into Light';
+.bookmarks-list {
+  margin-top: -100px;
+}
+
+.bookmark-banner {
+  float: left;
+
+  height: 100px; /* this is like width */
+  width: 400px;
+  background: crimson;
+
+  -webkit-transform: rotate(-270deg);
+  border-top: 150px solid crimson;
+  border-right: 90px solid black;
+  position: absolute;
+}
+
+.banner-text {
   color: white;
-}
 
-i.active {
-  color: gold;
-}
-
-i.active-adjacent {
-  color: gold;
+  position: relative;
+  -webkit-transform: rotate(-270deg);
 }
 
 .new-bookmark {
@@ -72,23 +63,86 @@ i.active-adjacent {
   margin-left: 30px;
   background: crimson;
   font-size: 18px;
-  font-family: 'Shadows Into Light';
   color: white;
   border-radius: 5%;
-  
+}
+.error-container {
+  height: 100px;
+  width: 100px;
+  margin-left: 400px;
+  color: crimson;
 }
 
+/* || Rating styles */
+.stars {
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+
+.rating-controls {
+  display: inline-block;
+}
+
+li {
+  list-style-type: none;
+  display: block;
+  text-align: left;
+  margin-left: 20px;
+}
+
+span.rating-controls {
+  display: flex;
+  flex-direction: row;
+}
+/* || Add form styles */
 fieldset {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  text-align: left;
-  border: none;
+  justify-content: space-around;
+  margin-top: -200px;
+  width: 400px;
+}
+
+label {
+  display: block;
+  align-content: right;
 }
 
 input {
   border: none;
+  width: 400px;
   border-bottom: solid gray 1px;
+  text-align: right;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.js-bookmarks-list {
+  margin-left: 350px;
+}
+
+.in-add-form {
+  display: inline;
+  padding: 10px;
+  font-size: 16px;
+  font-family: "Shadows Into Light";
+  color: white;
+}
+
+i.active {
+  color: gold;
+}
+
+i.active-adjacent {
+  color: gold;
+}
+
+form {
+  margin-top: -300px;
+  margin-left: 400px;
 }
 
 #form-button {
@@ -104,16 +158,15 @@ input {
   color: gold;
 }
 
-
 .fa-star:hover {
   color: gold;
 }
 
 #description {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
   height: 200px;
-  width: 200px;
+  width: 400px;
+  padding-top: 10px;
   margin-bottom: 10px;
+  border: 1px;
+  text-align: justify;
 }
